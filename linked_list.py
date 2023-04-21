@@ -24,45 +24,100 @@ Phase 2:
 4. Removing a node value from the list at a specific position
 5. Format the list as a string whenever `print()` is invoked
 """
-
+p = print
 # Phase 1
 
 # TODO: Implement a Linked List Node class here
 class Node:
   # TODO: Set the `_value` `_next` node instance variables
   def __init__(self, value):
-    pass
+    self._value = value
+    self._next = None
 
 
 # TODO: Implement a Singly Linked List class here
 class LinkedList:
   # TODO: Set the `_head` node, `_tail` node, and list `_length` instance variables
   def __init__(self):
-    pass
+    self._head = None
+    self._tail = None
+    self._length = 0
 
   # TODO: Implement the get_node method here
   def get_node(self, position):
-    pass
-
+    node = self._head
+    for p in range(1, position + 1): # this skips if pos = 0 and do all other pos
+      node = node._next
+    return node
+    
   # TODO: Implement the add_to_tail method here
   def add_to_tail(self, value):
-    pass
+    #creating new node:
+    new_node = Node(value)
+    # setting to LL:
+    if self._head is None:
+      self._head = self._tail = new_node
+    else:
+      self._tail._next = self._tail = new_node
+
+    self._length += 1  
+    return self
 
   # TODO: Implement the add_to_head method here
   def add_to_head(self, value):
-    pass
+    #creating new node:
+    new_node = Node(value)
+    # setting to LL:
+    if self._head is None:
+      self._head = self._tail = new_node
+    else:
+      new_node._next = self._head
+      self._head = new_node
+
+    self._length += 1  
+    return self
+
+    
 
   # TODO: Implement the remove_head method here
   def remove_head(self):
-    pass
+    if self._head is None: return None
+
+    removed = self._head
+    self._head = self._head._next
+    self._length -=1
+    if self._length == 0: self._tail = None
+
+    return removed
+
 
   # TODO: Implement the remove_tail method here
   def remove_tail(self):
-    pass
+    if self._head is None: return
+    if self._head is self._tail:
+      removed = self._head
+      self._head = self._tail = None
+      self._length = 0
+      return removed
+
+
+    current_node = self._head    
+    
+    while current_node.next:
+      new_tail = current_node
+      current_node = current_node.next
+    
+    # when found:
+    self._tail = new_tail
+    new_tail._next = None
+    length -= 1
+    return current_node # removed one
+
+    
 
   # TODO: Implement the __len__ method here
   def __len__(self):
-    pass
+    return self._length
 
 # Phase 2
 
@@ -83,8 +138,8 @@ class LinkedList:
     pass
 
   # TODO: Implement the __str__ method here
-  def __str__(self):
-    pass
+  # def __str__(self):
+    # pass
 
 # Phase 1 Manual Testing:
 
@@ -95,31 +150,31 @@ print(node._value)                              # hello
 linked_list = LinkedList()
 print(linked_list)                              # <__main__.LinkedList object at ...>
 
-# # 2. Test getting a node by its position
-# print(linked_list.get_node(0))                # None
+# 2. Test getting a node by its position
+print(linked_list.get_node(0))                # None
 
-# # 3. Test adding a node to the list's tail
-# linked_list.add_to_tail('new tail node')
-# print(linked_list.get_node(0))                # <__main__.Node object at ...>
-# print(linked_list.get_node(0)._value)         # `new tail node`
+# 3. Test adding a node to the list's tail
+linked_list.add_to_tail('new tail node')
+print(linked_list.get_node(0))                # <__main__.Node object at ...>
+print(linked_list.get_node(0)._value)         # `new tail node`
 
-# # 4. Test adding a node to list's head
-# linked_list.add_to_head('new head node')
-# print(linked_list.get_node(0))                # <__main__.Node object at ...>
-# print(linked_list.get_node(0)._value)         # `new head node`
+# 4. Test adding a node to list's head
+linked_list.add_to_head('new head node')
+print(linked_list.get_node(0))                # <__main__.Node object at ...>
+print(linked_list.get_node(0)._value)         # `new head node`
 
-# # 5. Test removing the head node
-# linked_list.remove_head()
-# print(linked_list.get_node(0)._value)         # `new tail node` because `new head node` has been removed
-# print(linked_list.get_node(1))                # `None` because `new head node` has been removed
+p('# 5. Test removing the head node')
+linked_list.remove_head()
+print(linked_list.get_node(0)._value)         # `new tail node` because `new head node` has been removed
+print(linked_list.get_node(1))                # `None` because `new head node` has been removed
 
-# # 6. Test removing the tail node
-# print(linked_list.get_node(0)._value)         # `new tail node`
-# linked_list.remove_tail()
-# print(linked_list.get_node(0))                # None
+p('# 6. Test removing the tail node')
+print(linked_list.get_node(0)._value)         # `new tail node`
+linked_list.remove_tail()
+print(linked_list.get_node(0))                # None
 
-# # 7. Test returning the list length
-# print(len(linked_list))                                 # 2
+p('# 7. Test returning the list length')
+print(len(linked_list))                                 # 2
 
 # Phase 2 Manual Testing
 
